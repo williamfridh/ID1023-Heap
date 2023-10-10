@@ -125,12 +125,13 @@ class Testing {
 		tree.add(14);
 		tree.add(15);
 		tree.print();
+		System.out.println("---------------------------------");
 		System.out.println("\n" + tree.remove() + "\n");
-		tree.print();
-		System.out.println("\n" + tree.remove() + "\n");
-		tree.print();
-		System.out.println("\n" + tree.remove() + "\n");
-		tree.print();
+		//tree.print();
+		//System.out.println("\n" + tree.remove() + "\n");
+		//tree.print();
+		//System.out.println("\n" + tree.remove() + "\n");
+		//tree.print();
 
 	}
 
