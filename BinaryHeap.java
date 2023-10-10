@@ -14,24 +14,30 @@ class BinaryHeap {
         if (root == null)
             System.out.println("Empty tree.");
         else
-        	print("", root);
+        	print("", root, 0);
     }
-    public void print(String d, Node n) {
+    public void print(String d, Node n, int side) {
         System.out.print(d);
         if (n != root)
             System.out.print("└───");
+		if (side == 0)
+    		System.out.print("   ");
+		if (side == 1)
+    		System.out.print("(L)");
+		if (side == 2)
+    		System.out.print("(R)");
         System.out.print(n.stringify());
         System.out.println();
         if (n.left != null || n.right != null) {
             if (n.left != null) {
                 if (n.right != null) {
-                    print(d + "    ", n.left);
+                    print(d + "       ", n.left, 1);
                 } else {
-                    print(d + "    ", n.left);
+                    print(d + "       ", n.left, 1);
                 }
             }
             if (n.right != null)
-                print(d + "    ", n.right);
+                print(d + "       ", n.right, 2);
         }
     }
 
@@ -87,7 +93,7 @@ class BinaryHeap {
 	 */
 	Node add(Node n, Node p, boolean forceSkip) {
 		if (n.priority <= p.priority && !forceSkip) {
-			swapNodes(n, p);									 	// From here we work with node i instead.
+			swapNodes(p, n);									 	// From here we work with node i instead.
 			add(p, n, true);
 			return n;												// Call the same method but with reversed roles.
 		} else {													// Determin which branch to follow.
@@ -121,9 +127,12 @@ class BinaryHeap {
 	 * Sort from the root down.
 	 */
 	String remove() {
+
 		Node old_root = root;
-		if (root.isLeaf())
-			return root.stringify();
+		if (root.isLeaf()) {
+			root = null;
+			return old_root.stringify();
+		}
 
 		// Locate the end node, new root.
 		Node new_root;
@@ -154,58 +163,42 @@ class BinaryHeap {
 		swapNodes(root, new_root);
 
 		// Order from the root down.
-		Node prev = null;
-		p = root;
-		while (!p.isLeaf() && (p.priority > p.left.priority || p.priority > p.right.priority)) {
-			//System.out.println("P IS " + p.stringify());
-			if (p.right == null || p.left.priority < p.right.priority) { // Left har higher priority.
-				if (prev != null)
-					prev.left = p.left;
-				prev = p.left;
-				swapNodes(p, p.left);
-				//p = p.left;
-				print();
-				System.out.println("1.Prev = " + prev.stringify());
-				System.out.println("1.NEW P: " + p.stringify());
-			} else if (p.left.priority == p.right.priority) { // Same priority
-				if (p.left.children > p.right.children) { // Left has more children, so go that way
-					if (prev != null)
-						prev.left = p.left;
-					prev = p.left;
-					swapNodes(p, p.left);
-					//p = p.left;
-					print();
-					System.out.println("2.Prev = " + prev.stringify());
-					System.out.println("2.NEW P: " + p.stringify());
-				} else { // Right has more children, so go that way
-					if (prev != null)
-						prev.right = p.right;
-					prev = p.right;
-					swapNodes(p, p.right);
-					//p = p.right;
-					print();
-					System.out.println("3.Prev = " + prev.stringify());
-					System.out.println("3.NEW P: " + p.stringify());
-				}
-			} else { // Right has lower priority, so go that way
-				//System.out.println(p.stringify() + " - " + p.right.stringify());
-				if (prev != null)
-					prev.right = p.right;
-				prev = p.right;
-				print();
-				swapNodes(p, p.right);
-				//p = p.right;
-				print();
-				System.out.println("4.Prev = " + prev.stringify());
-				System.out.println("4.NEW P: " + p.stringify());
-				//break;
+		sort(root);
+		return old_root.stringify();
+
+	}
+
+
+
+	Node sort(Node p) {
+
+		if (p.isLeaf() || ((p.left == null || p.priority < p.left.priority) &&( p.right == null || p.priority < p.right.priority)))
+			return p;
+
+		Node prev = p;
+
+		if (p.right == null || p.left.priority < p.right.priority) { // Left har higher priority.
+			p = p.left;
+			swapNodes(prev, p);
+			p.left = sort(p.left);
+		} else if (p.left.priority == p.right.priority) { // Same priority
+			if (p.left.children > p.right.children) { // Left has more children, so go that way
+				p = p.left;
+				swapNodes(prev, p);
+				p.left = sort(p.left);
+			} else { // Right has more children, so go that way
+				p = p.right;
+				swapNodes(prev, p);
+				p.right = sort(p.right);
 			}
-			//prev = p;
-			//break;
-			System.out.println("");
-			System.out.println("");
+		} else { // Right has lower priority, so go that way
+			p = p.right;
+			swapNodes(prev, p);
+			p.right = sort(p.right);
 		}
-		return "REMOVE: " + old_root.stringify();
+			
+		return p;
+
 	}
 
 
@@ -216,6 +209,7 @@ class BinaryHeap {
 	 * @param b - Second node
 	 */
 	void swapNodes (Node a, Node b) {
+
 		Node left_tmp = a.left;
 		Node right_tmp = a.right;
 		int children_tmp = a.children;
@@ -238,6 +232,7 @@ class BinaryHeap {
 
 		if (a == root)
 			root = b;
+
 	}
 
 }

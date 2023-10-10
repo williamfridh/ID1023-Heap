@@ -31,7 +31,6 @@ class ListOfItemsOne extends ListOfItems{
 		Node res = head;
 		Node n = head.nxt;
 		while (n != null) {
-			//System.out.println("COMPARE: " + res.priority + " vs " + n.priority);
 			if (res.priority.compareTo(n.priority) > 0)
 				res = n;
 			n = n.nxt;

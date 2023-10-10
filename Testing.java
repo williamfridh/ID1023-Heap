@@ -115,6 +115,18 @@ class Testing {
 		*/
 
 		BinaryHeap tree = new BinaryHeap();
+		for (Integer i : generateShuffledArr(100))
+			tree.add((int)i);
+		tree.print();
+		for (int i = 0; i < 100; i ++)
+			System.out.println(tree.remove());
+		/*tree.add(15);
+		tree.add(13);
+		tree.add(14);
+		tree.print();
+		System.out.println("\n" + tree.remove() + "\n");
+		tree.print();*/
+		/* 
 		tree.add(6);
 		tree.add(8);
 		tree.add(10);
@@ -127,11 +139,22 @@ class Testing {
 		tree.print();
 		System.out.println("---------------------------------");
 		System.out.println("\n" + tree.remove() + "\n");
+		//System.out.println("---------------------------------");
+		System.out.println("\n" + tree.remove() + "\n");
+		System.out.println("\n" + tree.remove() + "\n");
+		System.out.println("\n" + tree.remove() + "\n");
+		System.out.println("\n" + tree.remove() + "\n");
+		System.out.println("\n" + tree.remove() + "\n");
+		System.out.println("\n" + tree.remove() + "\n");
+		System.out.println("\n" + tree.remove() + "\n");
+		System.out.println("\n" + tree.remove() + "\n");
+		System.out.println("---------------------------------");
+		tree.print();
 		//tree.print();
 		//System.out.println("\n" + tree.remove() + "\n");
 		//tree.print();
 		//System.out.println("\n" + tree.remove() + "\n");
-		//tree.print();
+		//tree.print();*/
 
 	}
 
