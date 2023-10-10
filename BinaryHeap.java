@@ -1,11 +1,12 @@
 class BinaryHeap {
 
 	Node root;
-
+	int counter;	// Used for benchmarking.
 
 
 	BinaryHeap () {
 		root = null;
+		counter = 0;
 	}
 
 
@@ -43,7 +44,7 @@ class BinaryHeap {
 
 
 
-	private class Node {
+	public class Node {
 		Node left, right;
 		int children;
 
@@ -72,6 +73,19 @@ class BinaryHeap {
 			return left == null && right == null;
 		}
 
+		void incrPriority (int i) {
+			priority += i;
+		}
+
+	}
+
+
+
+	int push(int incr) {
+		root.incrPriority(incr);
+		counter = 0;
+		heapify(root);
+		return counter;
 	}
 
 
@@ -126,12 +140,15 @@ class BinaryHeap {
 	 * Unlink that node and set it as root.
 	 * Sort from the root down.
 	 */
-	String remove() {
+	Node remove() {
+
+		if (root == null)
+			return null;
 
 		Node old_root = root;
 		if (root.isLeaf()) {
 			root = null;
-			return old_root.stringify();
+			return old_root;
 		}
 
 		// Locate the end node, new root.
@@ -163,38 +180,39 @@ class BinaryHeap {
 		swapNodes(root, new_root);
 
 		// Order from the root down.
-		sort(root);
-		return old_root.stringify();
+		heapify(root);
+		return old_root;
 
 	}
 
 
 
-	Node sort(Node p) {
+	Node heapify(Node p) {
 
 		if (p.isLeaf() || ((p.left == null || p.priority < p.left.priority) &&( p.right == null || p.priority < p.right.priority)))
 			return p;
 
+		counter++;
 		Node prev = p;
 
 		if (p.right == null || p.left.priority < p.right.priority) { // Left har higher priority.
 			p = p.left;
 			swapNodes(prev, p);
-			p.left = sort(p.left);
+			p.left = heapify(p.left);
 		} else if (p.left.priority == p.right.priority) { // Same priority
 			if (p.left.children > p.right.children) { // Left has more children, so go that way
 				p = p.left;
 				swapNodes(prev, p);
-				p.left = sort(p.left);
+				p.left = heapify(p.left);
 			} else { // Right has more children, so go that way
 				p = p.right;
 				swapNodes(prev, p);
-				p.right = sort(p.right);
+				p.right = heapify(p.right);
 			}
 		} else { // Right has lower priority, so go that way
 			p = p.right;
 			swapNodes(prev, p);
-			p.right = sort(p.right);
+			p.right = heapify(p.right);
 		}
 			
 		return p;

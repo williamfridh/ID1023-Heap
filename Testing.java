@@ -114,11 +114,19 @@ class Testing {
 		}
 		*/
 
+
+
+		/**
+		 * Testing binary heaps.
+		 */
+		/*
 		BinaryHeap tree = new BinaryHeap();
-		for (Integer i : generateShuffledArr(100))
+		for (Integer i : generateShuffledArr(10))
 			tree.add((int)i);
 		tree.print();
-		for (int i = 0; i < 100; i ++)
+		System.out.println("PUSH: " + tree.push(3));
+		tree.print();
+		for (int i = 0; i < 10; i ++)
 			System.out.println(tree.remove());
 		/*tree.add(15);
 		tree.add(13);
@@ -155,6 +163,98 @@ class Testing {
 		//tree.print();
 		//System.out.println("\n" + tree.remove() + "\n");
 		//tree.print();*/
+
+		/**
+		 * Benchmarking binary heaps.
+		 */
+        Random rn = new Random();
+		System.out.print("Size\t\tPush\t\tRemove & Add\t\tRatio(Remove & Add/Push)\n");
+		int[] sizes = {10,20,40,80,160,320,640,1280,2560,5120,10240};
+		int tries = 10000;
+		for (int size : sizes) {
+			System.gc();
+			double best_push = Double.MAX_VALUE;
+			double best_remove_add = Double.MAX_VALUE;
+			double n0, n1, n2;
+			BinaryHeap heap_one;
+			BinaryHeap heap_two;
+			for (int i = 0; i < tries; i++) {
+				Integer[] arr = generateShuffledArr(size);
+				heap_one = new BinaryHeap();
+				heap_two = new BinaryHeap();
+
+				// Warm-up.
+				/*for (Integer x : arr)
+					heap_one.add(x, x);
+				for (Integer x : arr)
+					heap_one.remove();
+
+				for (Integer x : arr)
+					heap_two.add(x, x);
+				for (Integer x : arr)
+					heap_two.remove();*/
+
+				// Test push.
+				n0 = System.nanoTime();
+				for (Integer x : arr)
+					heap_one.add((int)x);
+				for (Integer x : arr)
+					heap_one.push(10 + rn.nextInt(91));
+				n1 = System.nanoTime();
+				n2 = n1 - n0;
+				if (n2 < best_push)
+					best_push = n2;
+
+				// Test remove and add.
+				n0 = System.nanoTime();
+				for (Integer x : arr)
+					heap_two.add((int)x);
+				for (Integer x : arr) {
+					BinaryHeap.Node tmp = heap_two.remove();
+					tmp.incrPriority(10 + rn.nextInt(91));
+					heap_two.add(tmp, heap_two.root, false);
+				}
+				n1 = System.nanoTime();
+				n2 = n1 - n0;
+				if (n2 < best_remove_add)
+					best_remove_add = n2;
+
+			}
+			System.out.printf("%d\t&\t%.0f\t&\t\t%.0f\t&\t\t%.2f\n", size, best_push/1000, best_remove_add/1000, best_push/best_remove_add);
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	}
 
