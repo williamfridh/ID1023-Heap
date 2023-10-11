@@ -66,54 +66,51 @@ class Testing {
 		int tries = 10000;
 		for (int size : sizes) {
 			System.gc();
-			double best_list_one = Double.MAX_VALUE;
-			double best_list_two = Double.MAX_VALUE;
+			double best_list_one = 0;
+			double best_list_two = 0;
 			double n0, n1, n2;
 			ListOfItemsOne list_one;
 			ListOfItemsTwo list_two;
 			for (int i = 0; i < tries; i++) {
-				Integer[] arr = generateDescendingArr(size);
+				Integer[] arr = generateShuffledArr(size);
+				//Integer[] arr = generateDescendingArr(size);
+				//Integer[] arr = new Integer[size];
+				//for (int j = 0; j < size; j++)
+				//	arr[j] = (Integer) j;
 				list_one = new ListOfItemsOne();
 				list_two = new ListOfItemsTwo();
 
 				// Warm-up.
-				for (Integer x : arr)
+				for (Integer x : arr){
 					list_one.add(x, x);
-				for (Integer x : arr)
-					list_one.remove();
+					list_one.remove();}
 
-				for (Integer x : arr)
+				for (Integer x : arr){
 					list_two.add(x, x);
-				for (Integer x : arr)
-					list_two.remove();
+					list_two.remove();}
 
 				// Test list one.
 				n0 = System.nanoTime();
-				for (Integer x : arr)
+				for (Integer x : arr){
 					list_one.add(x, x);
-				for (Integer x : arr)
-					list_one.remove();
+					list_one.remove();}
 				n1 = System.nanoTime();
-				n2 = n1 - n0;
-				if (n2 < best_list_one)
-					best_list_one = n2;
+				best_list_one += n1 - n0;
 
 				// Test list two.
 				n0 = System.nanoTime();
-				for (Integer x : arr)
+				for (Integer x : arr){
 					list_two.add(x, x);
-				for (Integer x : arr)
-					list_two.remove();
+					list_two.remove();}
 				n1 = System.nanoTime();
-				n2 = n1 - n0;
-				if (n2 < best_list_two)
-					best_list_two = n2;
+				best_list_two += n1 - n0;
 
 			}
+			best_list_one = best_list_one/tries;
+			best_list_two = best_list_two/tries;
 			System.out.printf("%d\t&\t%.0f\t&\t\t%.0f\t&\t\t%.2f\n", size, best_list_one/1000, best_list_two/1000, best_list_one/best_list_two);
-		}
-		*/
-
+		}*/
+		
 
 
 		/**
@@ -167,7 +164,6 @@ class Testing {
 		/**
 		 * Benchmarking binary heaps.
 		 */
-		/*
         Random rn = new Random();
 		System.out.print("Size\t\tPush\t\tRemove & Add\t\tRatio(Remove & Add/Push)\n");
 		int[] sizes = {10,20,40,80,160,320,640,1280,2560,5120,10240};
@@ -212,7 +208,7 @@ class Testing {
 			}
 			System.out.printf("%d\t&\t%.0f\t&\t\t%.0f\t&\t\t%.2f\n", size, best_push/1000, best_remove_add/1000, best_push/best_remove_add);
 			
-		}*/
+		}
 
 
 
@@ -257,9 +253,9 @@ class Testing {
 		10240   &       1020    &       2.24
 		20480   &       2217    &       2.17
 		 */
-		System.out.print("Size\t\tTime (us)\tRate of change\n");
+		/*System.out.print("Size\t\tTime (us)\tRate of change\t\tTime/Size\n");
 		int[] sizes = {40,80,160,320,640,1280,2560,5120,10240,20480};
-		int tries = 20000;
+		int tries = 30000;
 		double prev_best = 1;
 		for (int size : sizes) {
 			System.gc();
@@ -288,10 +284,10 @@ class Testing {
 					best = n2;
 
 			}
-			System.out.printf("%d\t&\t%.0f\t&\t%.2f\n", size, best/1000, best/prev_best);
+			System.out.printf("%d\t&\t%.0f\t&\t%.2f\t&\t%.2f\n", size, best/1000, best/prev_best, best/size);
 			prev_best = best;
 			
-		}
+		}*/
 
 
 
