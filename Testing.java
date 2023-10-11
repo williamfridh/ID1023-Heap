@@ -167,6 +167,7 @@ class Testing {
 		/**
 		 * Benchmarking binary heaps.
 		 */
+		/*
         Random rn = new Random();
 		System.out.print("Size\t\tPush\t\tRemove & Add\t\tRatio(Remove & Add/Push)\n");
 		int[] sizes = {10,20,40,80,160,320,640,1280,2560,5120,10240};
@@ -182,17 +183,6 @@ class Testing {
 				Integer[] arr = generateShuffledArr(size);
 				heap_one = new BinaryHeap();
 				heap_two = new BinaryHeap();
-
-				// Warm-up.
-				/*for (Integer x : arr)
-					heap_one.add(x, x);
-				for (Integer x : arr)
-					heap_one.remove();
-
-				for (Integer x : arr)
-					heap_two.add(x, x);
-				for (Integer x : arr)
-					heap_two.remove();*/
 
 				// Test push.
 				n0 = System.nanoTime();
@@ -221,33 +211,87 @@ class Testing {
 
 			}
 			System.out.printf("%d\t&\t%.0f\t&\t\t%.0f\t&\t\t%.2f\n", size, best_push/1000, best_remove_add/1000, best_push/best_remove_add);
+			
+		}*/
+
+
+
+		/**
+		 * Testing array heap.
+		 */
+		/*
+		ArrayHeap heap = new ArrayHeap();
+		System.out.println(heap.stringify());
+
+		for (Integer i : generateShuffledArr(64))
+			heap.add((int)i);
+/*
+		heap.add(1);
+		heap.add(3);
+		heap.add(5);
+		heap.add(6);
+		heap.add(7);
+		heap.add(9);
+		heap.add(11);
+		System.out.println(heap.stringify());
+		heap.add(4);*/
+
+		/*for (Integer i : generateShuffledArr(64))
+			System.out.println("REMOVE: " + heap.remove() + " >> " + heap.stringify());
+		*/
+
+
+
+		/**
+		 * Benchmark array heap.
+		 * 
+		Size            Time (us)       Rate of change
+		40      &       2       &       1773.00
+		80      &       4       &       2.23
+		160     &       9       &       2.28
+		320     &       21      &       2.28
+		640     &       43      &       2.09
+		1280    &       100     &       2.32
+		2560    &       217     &       2.17
+		5120    &       456     &       2.10
+		10240   &       1020    &       2.24
+		20480   &       2217    &       2.17
+		 */
+		System.out.print("Size\t\tTime (us)\tRate of change\n");
+		int[] sizes = {40,80,160,320,640,1280,2560,5120,10240,20480};
+		int tries = 20000;
+		double prev_best = 1;
+		for (int size : sizes) {
+			System.gc();
+			double best = Double.MAX_VALUE;
+			double n0, n1, n2;
+			ArrayHeap heap;
+			for (int i = 0; i < tries; i++) {
+				Integer[] arr = generateShuffledArr(size);
+				heap = new ArrayHeap();
+
+				// Warm up.
+				for (Integer x : arr)
+					heap.add(x);
+				for (Integer x : arr)
+					heap.remove();
+
+				// Test push.
+				n0 = System.nanoTime();
+				for (Integer x : arr)
+					heap.add(x);
+				for (Integer x : arr)
+					heap.remove();
+				n1 = System.nanoTime();
+				n2 = n1 - n0;
+				if (n2 < best)
+					best = n2;
+
+			}
+			System.out.printf("%d\t&\t%.0f\t&\t%.2f\n", size, best/1000, best/prev_best);
+			prev_best = best;
+			
 		}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
