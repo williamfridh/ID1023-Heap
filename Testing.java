@@ -164,6 +164,7 @@ class Testing {
 		/**
 		 * Benchmarking binary heaps.
 		 */
+		/*
         Random rn = new Random();
 		System.out.print("Size\t\tPush\t\tRemove & Add\t\tRatio(Remove & Add/Push)\n");
 		int[] sizes = {10,20,40,80,160,320,640,1280,2560,5120,10240};
@@ -208,7 +209,7 @@ class Testing {
 			}
 			System.out.printf("%d\t&\t%.0f\t&\t\t%.0f\t&\t\t%.2f\n", size, best_push/1000, best_remove_add/1000, best_push/best_remove_add);
 			
-		}
+		}*/
 
 
 
@@ -253,7 +254,7 @@ class Testing {
 		10240   &       1020    &       2.24
 		20480   &       2217    &       2.17
 		 */
-		/*System.out.print("Size\t\tTime (us)\tRate of change\t\tTime/Size\n");
+		System.out.print("Size\t\tTime (us)\tRate of change\t\tTime/Size\n");
 		int[] sizes = {40,80,160,320,640,1280,2560,5120,10240,20480};
 		int tries = 30000;
 		double prev_best = 1;
@@ -287,14 +288,7 @@ class Testing {
 			System.out.printf("%d\t&\t%.0f\t&\t%.2f\t&\t%.2f\n", size, best/1000, best/prev_best, best/size);
 			prev_best = best;
 			
-		}*/
-
-
-
-
-
-
-
+		}
 
 	}
 

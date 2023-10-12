@@ -32,12 +32,10 @@ class ArrayHeap {
 
 	
 	public void add(int item) {
-		//System.out.print("ADD: " + item);
 		if (end + 1 > arr.length - 1)
 			resizeArr(true);
 		arr[++end] = item;
 		addHeapify(end);
-		//System.out.println(" >> " + stringify());
 	}
 
 	private void addHeapify(int i) {
